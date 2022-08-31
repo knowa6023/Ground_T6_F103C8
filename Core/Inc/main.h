@@ -72,6 +72,8 @@ void Error_Handler(void);
 #define nCS6_GPIO_Port GPIOB
 #define LED_Pin GPIO_PIN_15
 #define LED_GPIO_Port GPIOB
+#define USART1_DE_Pin GPIO_PIN_12
+#define USART1_DE_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

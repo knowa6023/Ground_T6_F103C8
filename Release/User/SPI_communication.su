@@ -1,0 +1,2 @@
+SPI_communication.c:66:15:SPI_Write	8	static
+SPI_communication.c:86:15:SPI_Read	8	static

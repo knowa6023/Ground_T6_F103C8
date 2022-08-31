@@ -1,0 +1,10 @@
+application.c:254:9:Convert_R_to_Temperature	32	static
+application.c:186:13:camera_cmd_callback	0	static
+application.c:173:6:ledTimer_Callback	0	static
+application.c:204:6:eAPP_StartMCUReceive	0	static
+application.c:207:6:eAPP_StartMCU_UART_Receive	0	static
+application.c:210:6:eAPP_UART_Transmit_IT	8	static
+application.c:62:6:App_main	32	static
+application.c:214:6:HAL_UART_RxCpltCallback	8	static
+application.c:242:6:eAPP_Chip_Select	0	static
+application.c:248:6:eAPP_Chip_Un_Select	0	static

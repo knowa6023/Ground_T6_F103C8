@@ -1,0 +1,15 @@
+AD7792.c:82:15:AD7792_Init	16	static
+AD7792.c:158:15:AD7792_GetRegisterValue	32	static
+AD7792.c:184:6:AD7792_SetRegisterValue	24	static
+AD7792.c:206:6:AD7792_WaitRdyGoLow	16	static
+AD7792.c:222:6:AD7792_SetMode	8	static
+AD7792.c:242:6:AD7792_SetChannel	8	static
+AD7792.c:263:6:AD7792_SetGain	8	static
+AD7792.c:285:6:AD7792_SetIntReference	8	static
+AD7792.c:306:6:AD7792_Calibrate	8	static
+AD7792.c:327:15:AD7792_SingleConversion	8	static
+AD7792.c:349:15:AD7792_ContinuousReadAvg	16	static
+AD7792.c:381:9:AD7792_Config	16	static
+AD7792.c:450:9:AD7792_Config_	8	static
+AD7792.c:475:6:Select_SPI_Device	8	static
+AD7792.c:106:6:AD7792_Reset	16	static

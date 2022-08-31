@@ -18,6 +18,8 @@
 static Timer ledTimer;
 static Timer tickTimer;
 static uint8_t cmdButton_1[] ="<FM>PUSH_BUTTON:1<END>\r\n";
+static uint8_t msg_Hello[] ="Ground_T6 ver 1.1 \r\n";
+static char buff[100]={0};
 static uint8_t number_temp=1;
 static double result,result1,result2,result4=0;
 static 	uint32_t par;
@@ -28,7 +30,7 @@ static const double t20=1077.9;
 static const double t25=1097.4;
 static  double res,t,tmax=-100,tmin=100,tdelta=0,time=0,tdelta_of_1_min=0;
 static unsigned char buf[29];//18
-static char buff[27]={0};
+//static char buff[27]={0};
 
 
 /*----------------------------------prototypes function-----------------------------*/
@@ -56,12 +58,6 @@ extern UART_HandleTypeDef huart1;
 
 /*----------------------------------extern-----------------------------------------*/
 
-
-
-
-//uint8_t* buf=
-
-uint8_t i=1;
 PT1000_t PT1000;
 void App_main()
 {
@@ -72,30 +68,31 @@ void App_main()
 
 	CAMCMD_Init(camera_cmd_callback);
 	eAPP_StartMCU_UART_Receive();
+	HAL_GPIO_WritePin(USART1_DE_GPIO_Port, USART1_DE_Pin, SET);
+
+	eAPP_UART_Transmit_IT(msg_Hello);
 	while(1)
 	{
 		TMR_ExecuteCallbacks();
-		CAMCMD_ProcessMessages();
-	//	eAPP_UART_Transmit_IT(cmdButton_1,sizeof(cmdButton_1)-1);
-//		HAL_Delay(500);
-//		//HAL_UART_Transmit(&huart2, cmdButton_1,sizeof(cmdButton_1)-1,0xffff);
-//	//	HAL_UART_Transmit(&huart1, (uint8_t*)"Hello World\r\n", 13, 1000);
-//
-
-
-
+		//CAMCMD_ProcessMessages();
+		//eAPP_UART_Transmit_IT(cmdButton_1);
+///*********************************************************************************************
+//1*********************************************************************************************
+///*********************************************************************************************
 		AD7792_Reset();
 		AD7792_Init(1);
 		Select_SPI_Device(1);
 		PT1000.mas[0]=-9999;
 		PT1000.mas[1]=-9999;
 		AD7792_Config_(1);
-		par= AD7792_ContinuousReadAvg(100,1);
+		par= AD7792_ContinuousReadAvg(250,1);
 		result=(((double)par/0xFFFFFF))*4020;///mv
 		PT1000.mas[0]=(uint32_t)(10*result);
 		PT1000.mas[1]= Convert_R_to_Temperature(result);
-		HAL_Delay(50);
-
+		HAL_Delay(10);
+///*********************************************************************************************
+//2*********************************************************************************************
+///*********************************************************************************************
 		AD7792_Reset();
 		AD7792_Init(1);
 		Select_SPI_Device(2);
@@ -103,12 +100,11 @@ void App_main()
 		PT1000.mas[3]=-9999;
 		//AD7792_Config(1,2);
 		AD7792_Config_(1);
-		par= AD7792_ContinuousReadAvg(100,1);
+		par= AD7792_ContinuousReadAvg(250,1);
 		result=(((double)par/0xFFFFFF))*4020;///mv
 		PT1000.mas[2]=(uint32_t)(10*result);
 		PT1000.mas[3]= Convert_R_to_Temperature(result);
-		HAL_Delay(50);
-
+		HAL_Delay(10);
 ///*********************************************************************************************
 //3*********************************************************************************************
 ///*********************************************************************************************
@@ -118,11 +114,11 @@ void App_main()
 		PT1000.mas[4]=-9999;
 		PT1000.mas[5]=-9999;
 		AD7792_Config_(1);
-		par= AD7792_ContinuousReadAvg(100,1);
+		par= AD7792_ContinuousReadAvg(250,1);
 		result=(((double)par/0xFFFFFF))*4020;///mv
 		PT1000.mas[4]=(uint32_t)(10*result);
 		PT1000.mas[5]= Convert_R_to_Temperature(result);
-		HAL_Delay(50);
+		HAL_Delay(10);
 ///*********************************************************************************************
 //4*********************************************************************************************
 ///*********************************************************************************************
@@ -132,11 +128,11 @@ void App_main()
 		PT1000.mas[6]=-9999;
 		PT1000.mas[7]=-9999;
 		AD7792_Config_(1);
-		par= AD7792_ContinuousReadAvg(100,1);
+		par= AD7792_ContinuousReadAvg(250,1);
 		result=(((double)par/0xFFFFFF))*4020;///mv
 		PT1000.mas[6]=(uint32_t)(10*result);
 		PT1000.mas[7]= Convert_R_to_Temperature(result);
-		HAL_Delay(50);
+		HAL_Delay(10);
 ///*********************************************************************************************
 //5*********************************************************************************************
 ///*********************************************************************************************
@@ -146,11 +142,11 @@ void App_main()
 		PT1000.mas[8]=-9999;
 		PT1000.mas[9]=-9999;
 		AD7792_Config_(1);
-		par= AD7792_ContinuousReadAvg(100,1);
+		par= AD7792_ContinuousReadAvg(250,1);
 		result=(((double)par/0xFFFFFF))*4020;///mv
 		PT1000.mas[8]=(uint32_t)(10*result);
 		PT1000.mas[9]= Convert_R_to_Temperature(result);
-		HAL_Delay(50);
+		HAL_Delay(10);
 ///*********************************************************************************************
 //6*********************************************************************************************
 ///*********************************************************************************************
@@ -160,126 +156,16 @@ void App_main()
 		PT1000.mas[10]=-9999;
 		PT1000.mas[11]=-9999;
 		AD7792_Config_(1);
-		par= AD7792_ContinuousReadAvg(100,1);
+		par= AD7792_ContinuousReadAvg(250,1);
 		result=(((double)par/0xFFFFFF))*4020;///mv
 		PT1000.mas[10]=(uint32_t)(10*result);
 		PT1000.mas[11]= Convert_R_to_Temperature(result);
-		HAL_Delay(50);
+		HAL_Delay(10);
 ///*********************************************************************************************
 ///*********************************************************************************************
 ///*********************************************************************************************
-
-
-////		switch(number_temp)
-////		{
-////			case 1:
-//////
-//				PT1000.mas[0]=-9999;
-//			//	chipSelect_1_LOW();
-//				AD7792_Reset();
-//				AD7792_Init(1);
-//
-//				AD7792_Config(1,1);
-//				par= AD7792_ContinuousReadAvg(250,1);
-//				result=(((double)par/0xFFFFFF))*4020;///mv
-//				PT1000.mas[0]=(uint32_t)(10*result);
-//				PT1000.mas[1]= Convert_R_to_Temperature(result);
-//			//	sprintf(buf, "<FM>Temp_sensor_1:%03d<END>\r\n", PT1000.mas[1]);
-//				float res=PT1000.mas[1]/10.0;
-	//			sprintf(buff,"Temp_sensor_1:  \t%12.2f \r\n",(float)res);
-//				//eAPP_UART_Transmit_IT(buf);
-//			//	eAPP_UART_Transmit_IT(buff);
-////				HAL_Delay(300);
-////
-//				HAL_Delay(50);
-//				AD7792_Config(1,2);
-//								par= AD7792_ContinuousReadAvg(250,2);
-//								result2=(((double)par/0xFFFFFF))*4020;///mv
-//								PT1000.mas[0]=(uint32_t)(10*result);
-//								PT1000.mas[1]= Convert_R_to_Temperature(result);
-//
-//
-//								HAL_Delay(50);
-//
-//						AD7792_Reset();
-//						AD7792_Init(2);
-//								AD7792_Config(1,2);
-//												par= AD7792_ContinuousReadAvg(2,2);
-//
-//												result1=(((double)par/0xFFFF))*4020;///mv
-//												PT1000.mas[0]=(uint32_t)(10*result);
-//												PT1000.mas[1]= Convert_R_to_Temperature(1097.0/*result*/);
-//
-//												HAL_Delay(50);
-
-//
-//												AD7792_Reset();
-//												AD7792_Init(5);
-//														AD7792_Config(1,5);
-//																		par= AD7792_ContinuousReadAvg(250,5);
-//																		result4=(((double)par/0xFFFFFF))*4020;///mv
-//																		PT1000.mas[0]=(uint32_t)(10*result);
-//																		PT1000.mas[1]= Convert_R_to_Temperature(result);
-//
-//																		HAL_Delay(50);
-//				/*
-//				if ((result<=t25)||(result>=t20))
-//				{
-//					res=5/(t25-t20);
-//					t=((t25-result)*res)+20;
-//					if(tmax<t)tmax=t;
-//					if(tmin>t)tmin=t;
-//					tdelta=tmax-tmin;
-//
-//				}
-//				else
-//				{
-//					if ((result<=t20)||(result>=t10))
-//					{
-//						res=10/(t20-t10);
-//						t=((t25-result)*res)+10;
-//						if(tmax<t)tmax=t;
-//						if(tmin>t)tmin=t;
-//					    tdelta=tmax-tmin;
-//					}
-//				}
-//*/
-//				chipSelect_1_HIGH();
-//				break;
-//			case 2:
-//				/*
-//				//PT1000.mas[1]=-9999;
-//				chipSelect_2_LOW();
-//				PT1000.mas[0]=-9999;
-//				//chipSelect_2_LOW();
-//			//	AD7792_Reset();
-//				AD7792_Init();
-//				AD7792_Config(1);
-//				par= AD7792_ContinuousReadAvg(10);
-//				result=(((double)par/0xFFFFFF))*2871;///mv
-//				PT1000.mas[0]=(uint32_t)(10*result);
-//				PT1000.mas[1]= Convert_R_to_Temperature(result);
-//				sprintf(buf, "<FM>BATTERY_CHARGE:%05d<END>\r\n", PT1000.mas[0]);
-//				eAPP_UART_Transmit_IT(buf);
-//				HAL_Delay(300);
-//
-//*/
-//				chipSelect_2_HIGH();
-//				break;
-//			case 3:
-//				//PT1000.mas[2]=-9999;
-//				chipSelect_2_LOW();
-//
-//
-//
-//				chipSelect_2_HIGH();
-//				break;
-//			case 4:
-//				break;
-//			default:
-//				break;
-//		}
-		i++;
+		sprintf(buff, "<FM>Temperature T1:%03d 	T2:%03d	T3:%03d	T4:%03d	T5:%03d	T6:%03d, <END>\r\n", PT1000.mas[1],PT1000.mas[3],PT1000.mas[5],PT1000.mas[7],PT1000.mas[9],PT1000.mas[11]);
+		eAPP_UART_Transmit_IT(buff);
 	}
 
 }

@@ -64,7 +64,9 @@
 extern void eAPP_Chip_Un_Select();
 extern void eAPP_Chip_Select();
 extern SPI_HandleTypeDef hspi1;
+
 #define POLAR_MODE   1
+#define DELAY_FOR_DATAREADY_MS 10
 //#define BIPOLAR_MODE 0
 
 
@@ -203,9 +205,10 @@ void AD7792_SetRegisterValue(unsigned char regAddress,
 *******************************************************************************/
 void AD7792_WaitRdyGoLow(void)
 {
-    while( AD7792_RDY_STATE )
+	uint32_t  timme = 0;
+    while( AD7792_RDY_STATE || (HAL_GetTick()-timme)>DELAY_FOR_DATAREADY_MS)
     {
-        ;
+    	timme = HAL_GetTick();
     }
 }
 
